@@ -24,7 +24,7 @@ public class DAO {
         return conn;
     }
 
-    public void createTable(Connection conn, String db, String entity) {
+    public void createTable(Connection conn, String entity) {
         Statement stmt = null;
 
         try {
@@ -32,7 +32,20 @@ public class DAO {
                     + "tdid SERIAL, task VARCHAR(200), status BOOLEAN, PRIMARY KEY (tdid) );", entity);
             stmt = conn.createStatement();
             stmt.executeUpdate(query);
-            System.out.println("Table '" + entity + "' has been created!");
+            System.out.println(String.format("Table '%s' has been created!", entity));
+        } catch (Exception e) {
+            System.out.println("Error with this statement: " + e + "!");
+        }
+    }
+
+    public void insertTodo(Connection conn, String entity, String task, boolean status) {
+        Statement stmt = null;
+
+        try {
+            String query = String.format("INSERT INTO %s(task, status) VALUES ('%s', %s);", entity, task, status);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+            System.out.println(String.format("Todo: %s, Complete: %s, add to TABLE %s", task, status, entity));
         } catch (Exception e) {
             System.out.println("Error with this statement: " + e + "!");
         }
