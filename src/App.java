@@ -5,6 +5,7 @@ public class App {
         DAO dao = new DAO();
         Connection dbConn = dao.connectToDb("todo", "postgres", "password");
         // dao.createTable(dbConn, "ToDo");
-        dao.insertTodo(dbConn, "ToDo", "Create ToDo app", false);
+        // dao.insertTodo(dbConn, "ToDo", "Create ToDo app", false);
+        dao.selectAll(dbConn, "ToDo");
     }
 }

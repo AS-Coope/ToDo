@@ -1,5 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 // Access to the database is made via this class
@@ -46,6 +47,24 @@ public class DAO {
             stmt = conn.createStatement();
             stmt.executeUpdate(query);
             System.out.println(String.format("Todo: %s, Complete: %s, add to TABLE %s", task, status, entity));
+        } catch (Exception e) {
+            System.out.println("Error with this statement: " + e + "!");
+        }
+    }
+
+    public void selectAll(Connection conn, String entity) {
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            String query = String.format("SELECT * FROM %s;", entity);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                System.out.print(rs.getString("tdid") + " ");
+                System.out.print(rs.getString("task") + " ");
+                System.out.println(rs.getString("status"));
+            }
         } catch (Exception e) {
             System.out.println("Error with this statement: " + e + "!");
         }
