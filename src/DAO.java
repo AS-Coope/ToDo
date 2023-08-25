@@ -6,6 +6,8 @@ import java.sql.Statement;
 // Access to the database is made via this class
 public class DAO {
 
+    final static String entityName = "ToDo";
+
     public Connection connectToDb(String db, String user, String password) {
         Connection conn = null;
 
