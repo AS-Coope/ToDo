@@ -54,14 +54,14 @@ public class DAO {
         }
     }
 
-    public void deleteTodo(Connection conn, String entity, String id) {
+    public void deleteTodo(Connection conn, String entity, int id) {
         Statement stmt = null;
 
         try {
-            String query = String.format("INSERT INTO %s(task, status) VALUES ('%s', %s);", entity);
+            String query = String.format("DELETE FROM %s WHERE tdid = %s;", entity, id);
             stmt = conn.createStatement();
             stmt.executeUpdate(query);
-            System.out.println(String.format("Todo: %s, Complete: %s, add to TABLE %s", entity));
+            System.out.println("The ToDo has been deleted!");
         } catch (Exception e) {
             System.out.println("Error with this statement: " + e + "!");
         }

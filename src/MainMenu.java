@@ -9,7 +9,7 @@ public class MainMenu {
     Scanner scan = new Scanner(System.in);
 
     int menuChoice = 0;
-    int exitValue = 3;
+    final int exitValue = 4;
 
     public MainMenu(Connection conn) {
         this.conn = conn;
@@ -22,6 +22,7 @@ public class MainMenu {
             System.out.println("| TODO APP |");
             System.out.println("| 1. View all ToDos");
             System.out.println("| 2. Create a ToDo");
+            System.out.println("| 3. Delete a ToDo");
             // future database related functions come here
             System.out.println(String.format("| %s. Exit ToDo App", exitValue));
             System.out.print("| Choice (Enter the number beside the option): ");
@@ -41,6 +42,10 @@ public class MainMenu {
                     break;
 
                 case 3:
+                    deleteTodo();
+                    break;
+
+                case exitValue:
                     break;
 
                 default:
@@ -52,12 +57,18 @@ public class MainMenu {
         } while (menuChoice != exitValue);
     }
 
-    public void viewTodo() {
+    public void showTodos() {
         // note to self: proper access of static variable entityName through class
         // and not instance of the class
         System.out.println("| All ToDos:");
         dao.selectAll(this.conn, DAO.entityName);
         System.out.println("");
+    }
+
+    public void viewTodo() {
+        // note to self: proper access of static variable entityName through class
+        // and not instance of the class
+        showTodos();
         showMenu();
     }
 
@@ -70,6 +81,28 @@ public class MainMenu {
 
         // adding ToDo to database
         dao.insertTodo(conn, DAO.entityName, task, false);
+        System.out.println("");
+        showMenu();
+    }
+
+    public void deleteTodo() {
+
+        int deleteVal;
+        // first show the todo table
+        showTodos();
+
+        // prompt the user to delete a todo, or allow them to leave to main menu
+        System.out.print(
+                "| Please select the id (number) of the ToDo you want to delete (Enter 0 to return to main menu): ");
+        // remove the todo if they choose so, or return them to the main menu if they
+        // choose so
+        deleteVal = scan.nextInt();
+        scan.nextLine();
+
+        // NOTE: possible null pointer exception
+        if (deleteVal != 0) {
+            dao.deleteTodo(conn, DAO.entityName, deleteVal);
+        }
         System.out.println("");
         showMenu();
     }
