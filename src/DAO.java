@@ -54,6 +54,19 @@ public class DAO {
         }
     }
 
+    public void deleteTodo(Connection conn, String entity, String id) {
+        Statement stmt = null;
+
+        try {
+            String query = String.format("INSERT INTO %s(task, status) VALUES ('%s', %s);", entity);
+            stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+            System.out.println(String.format("Todo: %s, Complete: %s, add to TABLE %s", entity));
+        } catch (Exception e) {
+            System.out.println("Error with this statement: " + e + "!");
+        }
+    }
+
     public void selectAll(Connection conn, String entity) {
         Statement stmt = null;
         ResultSet rs = null;
@@ -65,7 +78,11 @@ public class DAO {
             while (rs.next()) {
                 System.out.print(rs.getString("tdid") + " ");
                 System.out.print(rs.getString("task") + " ");
-                System.out.println(rs.getString("status"));
+                if (rs.getString("status") == "t") {
+                    System.out.println("true");
+                } else {
+                    System.out.println("false");
+                }
             }
         } catch (Exception e) {
             System.out.println("Error with this statement: " + e + "!");
